@@ -74,3 +74,60 @@ twavf_allOmega_b <- function(f_uvMat, OmegaDist, s){
 
 
 
+
+
+gWavDiss <- function(f_uvMat, OmegaDist, scales, nperm){ #new function to be created
+
+
+	emp_wavGdis <- c()
+	null_wavGdis <- list()
+
+	for(daS in 1:length(scales)){
+
+		tmpW <- twavf_allOmega_b(f_uvMat, OmegaDist = OmegaDist, s = scales[daS]) #wavelet difference
+
+
+		wavGdis <- rowSums(tmpW^2)
+
+		emp_wavGdis <- cbind(emp_wavGdis, wavGdis) 
+
+		tmp_null_wavGdis <- c()
+
+		cat('scale', daS, '\n')
+
+		for(j in 1:nperm){
+
+			rindiv <- sample(1:nrow(tmp2samp)) #for permuting the distance matrix
+
+			tmpWn <- twavf_allOmega_b(f_uvMat, OmegaDist = OmegaDist[rindiv, rindiv], s = scales[daS])
+
+			wavGdisn <- rowSums(tmpWn^2)
+
+			tmp_null_wavGdis <- cbind(tmp_null_wavGdis, wavGdisn) 
+
+			cat(j)
+
+		}
+
+		null_wavGdis[[daS]] <- tmp_null_wavGdis
+	}
+
+
+
+
+	CIz <- matrix(nrow = length(scales), ncol = 2)
+
+	for(i in 1:length(scales)){
+		CIz[i,] <- quantile(apply(null_wavGdis[[i]], 2, mean), probs = c(0.025, 0.975))
+		}
+
+	list('obs. wavelets' = emp_wavGdis, 'null_wavelets' = null_wavGdis, 'null_95bounds' = CIz)	
+
+	}
+
+
+
+
+
+
+

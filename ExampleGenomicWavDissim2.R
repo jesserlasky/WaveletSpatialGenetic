@@ -11,7 +11,12 @@ SNPsF <- read.csv('ExampleSampleSNPs.1.csv', header = F)
 
 SNPsF <-as.matrix(SNPsF)
 
+#calculate a distance matrix between sampling locations
 DistMat <- as.matrix(dist(tmp2samp[,c('x', 'y')]))
+
+
+
+
 
 minscal <- quantile(DistMat[upper.tri(DistMat)], 0.001)
 
@@ -20,21 +25,19 @@ maxscal <- quantile(DistMat[upper.tri(DistMat)], 0.99) / 2
 sclz <- exp(seq(log(minscal), log(maxscal), length.out = 15)) #these are the scales of analysis to implement. I recommend starting somewhere above the minimum distance between pairs, and stopping at a scale maybe half the landscape extent. These are still a bit arbitrary and merit further investigation.
 
 
-set.seed(1)
+set.seed(1) #for reproducibility
 
 
-gWavDiss_out <- gWavDiss(SNPsF, OmegaDist = DistMat, scales = sclz, nperm = 50) 
+#calculate the genome-wide wavelet dissimliarity for the selected scales, using permutations to generate a null ('nperm' gives the number of permutations)
+gWavDiss_out <- gWavDiss(SNPsF, OmegaDist = DistMat, scales = sclz, nperm = 100) 
 
 
-
-
-
+#get y-limits for plot
 tmpylim <- c(min(apply(gWavDiss_out[['obs. wavelets']], 2, mean)), max(apply(gWavDiss_out[['obs. wavelets']], 2, mean)))
 
 
 
 #plot the change in mean genomic wavelet dissimilarity across scales, compared to null
-
 
 plot.new()
 plot.window(xlim = range(sclz), ylim = tmpylim, log = 'xy')

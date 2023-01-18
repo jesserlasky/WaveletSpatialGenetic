@@ -7,9 +7,17 @@ source("WavFuns4.R")
 
 tmp2samp <- read.csv('ExampleSampleLocs.1.csv')
 
+nsamp <- nrow(tmp2samp)
+
 SNPsF <- read.csv('ExampleSampleSNPs.1.csv', header = F)
 
 SNPsF <-as.matrix(SNPsF)
+
+
+#convert so major allele is always 1 
+SNPsF[,colSums(SNPsF) < (nsamp * 0.5 * 2)] <- 2 - SNPsF[,colSums(SNPsF) < (nsamp * 0.5 * 2)]####
+######
+
 
 #calculate a distance matrix between sampling locations
 DistMat <- as.matrix(dist(tmp2samp[,c('x', 'y')]))

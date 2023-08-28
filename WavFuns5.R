@@ -79,12 +79,18 @@ gWavDiss <- function(f_uvMat, OmegaDist, scales, nperm){ #new function to be cre
 	emp_wavGdis <- c()
 	null_wavGdis <- list()
 
+	tmpdist <- OmegaDist
+	diag(tmpdist) <- NA
+	minsclz <- apply(tmpdist, 1, min, na.rm = T) * 2 #to avoid calculating wavelets for small scales for isolated samples
+
 	for(daS in 1:length(scales)){
 
 		tmpW <- twavf_allOmega_b(f_uvMat, OmegaDist = OmegaDist, s = scales[daS]) #wavelet difference
 
 
 		wavGdis <- sqrt(rowSums(tmpW^2)) #updated - added sqrt() - for v5
+
+		wavGdis[minsclz > scales[daS]] <- NA #for those that have no neighbors closer than scale / 2
 
 		emp_wavGdis <- cbind(emp_wavGdis, wavGdis) 
 
@@ -94,11 +100,14 @@ gWavDiss <- function(f_uvMat, OmegaDist, scales, nperm){ #new function to be cre
 
 		for(j in 1:nperm){
 
-			rindiv <- sample(1:nrow(f_uvMat)) #for permuting the distance matrix
+			rindiv <- sample(1:nrow(f_uvMat)) #for permuting the genotype matrix
 
-			tmpWn <- twavf_allOmega_b(f_uvMat, OmegaDist = OmegaDist[rindiv, rindiv], s = scales[daS])
+			tmpWn <- twavf_allOmega_b(f_uvMat[rindiv, ], OmegaDist = OmegaDist, s = scales[daS])
 
 			wavGdisn <- sqrt(rowSums(tmpWn^2)) #updated - added sqrt() - for v5
+
+			wavGdisn[minsclz > scales[daS]] <- NA #for those that have no neighbors closer than scale / 2
+
 
 			tmp_null_wavGdis <- cbind(tmp_null_wavGdis, wavGdisn) 
 

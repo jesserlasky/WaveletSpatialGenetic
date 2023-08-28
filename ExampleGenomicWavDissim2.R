@@ -3,7 +3,7 @@
 
 library('RColorBrewer')
 
-source("WavFuns4.R")
+source("WavFuns5.R")
 
 tmp2samp <- read.csv('ExampleSampleLocs.1.csv')
 

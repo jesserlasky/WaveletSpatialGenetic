@@ -11,7 +11,7 @@ scales <- exp(seq(1, 2.5, length.out = 6))
 SNPsF2 <- read.csv('model_output_patchySelecGrad_1.5_sigma0.5_sigmaK20.125_K25_tdelta500_gen10000_1337254.csv')
 
 #SNP information table
-snz <- read.csv('~/Dropbox/jesse/WaveletQstFst/Results/SLiM_sims/SNPinfo_model_output_patchySelecGrad_1.5_sigma0.5_sigmaK20.125_K25_tdelta500_gen10000_1337254.csv')
+snz <- read.csv('SNPinfo_model_output_patchySelecGrad_1.5_sigma0.5_sigmaK20.125_K25_tdelta500_gen10000_1337254.csv')
 
 
 tmp2samp <- SNPsF2[,1:2] #x - y spatial coordinates

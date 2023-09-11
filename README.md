@@ -10,7 +10,7 @@ https://www.biorxiv.org/content/10.1101/2022.03.21.485229v3
 
 
 ## Genome-wide wavelet dissimilarity
-[This file "ExampleGenomicWavDissim2.R",](https://github.com/jesserlasky/WaveletSpatialGenetic/blob/main/ExampleGenomicWavDissim2.R), contains a script with example SNP and geographic coordinate datasets (included in this repository).
+[This file ExampleGenomicWavDissim2.R](https://github.com/jesserlasky/WaveletSpatialGenetic/blob/main/ExampleGenomicWavDissim2.R), contains a script with example SNP and geographic coordinate datasets (included in this repository).
 This shows how to use my code to calculate genome-wide wavelet dissimilarity, using the SNP matrix and the coordinates of samples. It also shows how to plot the mean dissimilarity among sites compared to a null, as well as a the local dissimilarity at each sampled site compared to a null, across a range of spatial scales.
 
 ## Scale-specific genetic variance test

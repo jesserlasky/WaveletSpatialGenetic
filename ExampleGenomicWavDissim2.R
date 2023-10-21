@@ -111,7 +111,7 @@ for(scl in 1:length(scalecolz)){
 	#hypothesis test for individual locations
 	sclCI <- apply(gWavDiss_out[['null_wavelets']][[scalecol]], 1, quantile, probs = c(0.025, 0.975), na.rm = T)
 
-	redz <- scalefun_col2(gWavDiss_out[['obs_wavelets']][,scalecol], Ncol = 40, Max = max(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs. wavelets']][,scalecol] > sclCI[2,]], na.rm = T), Min = min(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs_wavelets']][,scalecol] > sclCI[2,]], na.rm = T)) + 60 #the signficantly high dissimilarity locations
+	redz <- scalefun_col2(gWavDiss_out[['obs_wavelets']][,scalecol], Ncol = 40, Max = max(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs_wavelets']][,scalecol] > sclCI[2,]], na.rm = T), Min = min(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs_wavelets']][,scalecol] > sclCI[2,]], na.rm = T)) + 60 #the signficantly high dissimilarity locations
 	redz[redz < 0] <- NA
 
 	points(tmp2samp[,c('x', 'y')], cex = c(0, 1.5)[1 + (gWavDiss_out[['obs_wavelets']][,scalecol] > sclCI[2,])], lwd = 1.5, 

@@ -41,7 +41,7 @@ gWavDiss_out <- gWavDiss(SNPsF, OmegaDist = DistMat, scales = sclz, nperm = 100)
 
 
 #get y-limits for plot
-tmpylim <- c(min(apply(gWavDiss_out[['obs. wavelets']], 2, mean)), max(apply(gWavDiss_out[['obs. wavelets']], 2, mean)))
+tmpylim <- c(min(apply(gWavDiss_out[['obs_wavelets']], 2, mean, na.rm = T)), max(apply(gWavDiss_out[['obs_wavelets']], 2, mean, na.rm = T)))
 
 
 
@@ -53,11 +53,11 @@ plot.window(xlim = range(sclz), ylim = tmpylim, log = 'xy')
 polygon(c(sclz, rev(sclz)), c(gWavDiss_out[['null_95bounds']][,1], rev(gWavDiss_out[['null_95bounds']][,2])), col = gray(0.75), border = NA)
 text(5, 270, 'Null', pos = 4, col = gray(0.75))
 
-lines(sclz, apply(gWavDiss_out[['obs. wavelets']], 2, mean))
+lines(sclz, apply(gWavDiss_out[['obs_wavelets']], 2, mean, na.rm = T))
 
 text(2.1, 1e3, 'Observed', pos = 4)
 
-points(sclz, apply(gWavDiss_out[['obs. wavelets']], 2, mean))
+points(sclz, apply(gWavDiss_out[['obs_wavelets']], 2, mean, na.rm = T))
 
 
 axis(1)
@@ -109,17 +109,17 @@ for(scl in 1:length(scalecolz)){
 
 
 	#hypothesis test for individual locations
-	sclCI <- apply(gWavDiss_out[['null_wavelets']][[scalecol]], 1, quantile, probs = c(0.025, 0.975))
+	sclCI <- apply(gWavDiss_out[['null_wavelets']][[scalecol]], 1, quantile, probs = c(0.025, 0.975), na.rm = T)
 
-	redz <- scalefun_col2(gWavDiss_out[['obs. wavelets']][,scalecol], Ncol = 40, Max = max(gWavDiss_out[['obs. wavelets']][,scalecol][gWavDiss_out[['obs. wavelets']][,scalecol] > sclCI[2,]], na.rm = T), Min = min(gWavDiss_out[['obs. wavelets']][,scalecol][gWavDiss_out[['obs. wavelets']][,scalecol] > sclCI[2,]], na.rm = T)) + 60 #the signficantly high dissimilarity locations
+	redz <- scalefun_col2(gWavDiss_out[['obs_wavelets']][,scalecol], Ncol = 40, Max = max(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs. wavelets']][,scalecol] > sclCI[2,]], na.rm = T), Min = min(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs_wavelets']][,scalecol] > sclCI[2,]], na.rm = T)) + 60 #the signficantly high dissimilarity locations
 	redz[redz < 0] <- NA
 
-	points(tmp2samp[,c('x', 'y')], cex = c(0, 1.5)[1 + (gWavDiss_out[['obs. wavelets']][,scalecol] > sclCI[2,])], lwd = 1.5, 
+	points(tmp2samp[,c('x', 'y')], cex = c(0, 1.5)[1 + (gWavDiss_out[['obs_wavelets']][,scalecol] > sclCI[2,])], lwd = 1.5, 
 		col = mepal(100)[redz], 
 		pch = 19) #this will throw a warning if there are no locations where wavelet dissimilarity is more than expected
 
 
-	points(tmp2samp[,c('x', 'y')], cex = c(0, 1.5)[1 + (gWavDiss_out[['obs. wavelets']][,scalecol] < sclCI[1,])], lwd = 1.5, col = mepal(100)[scalefun_col2(gWavDiss_out[['obs. wavelets']][,scalecol], Ncol = 40, Max = max(gWavDiss_out[['obs. wavelets']][,scalecol][gWavDiss_out[['obs. wavelets']][,scalecol] < sclCI[1,]], na.rm = T), Min = min(gWavDiss_out[['obs. wavelets']][,scalecol][gWavDiss_out[['obs. wavelets']][,scalecol] < sclCI[1,]], na.rm = T)) + 2], pch = 19) #this will throw a warning if there are no locations where wavelet dissimilarity is less than expected
+	points(tmp2samp[,c('x', 'y')], cex = c(0, 1.5)[1 + (gWavDiss_out[['obs_wavelets']][,scalecol] < sclCI[1,])], lwd = 1.5, col = mepal(100)[scalefun_col2(gWavDiss_out[['obs_wavelets']][,scalecol], Ncol = 40, Max = max(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs_wavelets']][,scalecol] < sclCI[1,]], na.rm = T), Min = min(gWavDiss_out[['obs_wavelets']][,scalecol][gWavDiss_out[['obs_wavelets']][,scalecol] < sclCI[1,]], na.rm = T)) + 2], pch = 19) #this will throw a warning if there are no locations where wavelet dissimilarity is less than expected
 
 	}
 ###

@@ -10,6 +10,9 @@ tmp2samp <- read.csv('ExampleSampleLocs.1.csv')
 nsamp <- nrow(tmp2samp)
 
 SNPsF <- read.csv('ExampleSampleSNPs.1.csv', header = F)
+#I have not yet tested this with missing allele calls. Currently I recommend using it with imputed data.
+
+#the SNP matrix is just a matrix with alternate allele counts for each individual. Rows are samples, columns are SNPs
 
 SNPsF <-as.matrix(SNPsF)
 
@@ -25,7 +28,8 @@ DistMat <- as.matrix(dist(tmp2samp[,c('x', 'y')]))
 
 
 
-
+# this is choosing the minimum scale for analysis, but there is a bit of an art to this. if you have zeroes in the off diagonals of the distance matrix you wouldn't want to choose the minimum scale in this manner, because it may choose zero, which doesn't work.
+#I recommend aiming for a minimum scale that is not so small as to yield very few pairs of locations that close together, but not so large as to completely miss interesting things that may be going on.
 minscal <- quantile(DistMat[upper.tri(DistMat)], 0.001)
 
 maxscal <- quantile(DistMat[upper.tri(DistMat)], 0.99) / 2
@@ -102,7 +106,7 @@ for(scl in 1:length(scalecolz)){
 	plot(tmp2samp[,c('x', 'y')])
 
 	par(xpd = T)
-	lines(c(1, 1 + sclz[scalecol]), c(27,27))
+	lines(c(1, 1 + sclz[scalecol]), c(27,27)) #this plots the scale as a line, but it has to be in the same units as the map coordinates. If your scales are in km but the map is lat/lon, this will not work, and instead you need to plot these lines in units of longitude degrees.
 	text(1, 29, 'scale')
 	par(xpd = F)
 

@@ -1,7 +1,7 @@
 
 #this is modified from Whitlock & Lotterhos https://www.jstor.org/stable/10.1086/682949
 #make the iterator function
-#takes as input the wavlet transformed values, starting degrees of freedom
+#takes as input the wavelet transformed values, starting degrees of freedom
 #v5 fixes the df
 
 jl_iterator <- function(FSTvec, Nsamp_q, SmallestFstLimit, LargestLimit){

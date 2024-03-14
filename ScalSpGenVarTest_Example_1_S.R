@@ -36,7 +36,14 @@ for(i in 1:length(scales)){ #run test for all scales
 
 		tmpW <- twavf_allOmega_b(SNPsF, OmegaDist = DistMat, s = scales[i]) #SNPs should be matrix
 
-		scalWavVar[i, ] <- apply(tmpW/locSD, 2, var)# locus variance in wavelet
+		#mask those scale-sample combinations where samples are too isolated
+		tmpdist <- DistMat
+		diag(tmpdist) <- NA
+		minsclz <- apply(tmpdist, 1, min, na.rm = T) * 2 #to avoid calculating wavelets for small scales for isolated samples
+
+		tmpW[minsclz > scales[i],] <- NA #for those that have no neighbors closer than scale / 2
+
+		scalWavVar[i, ] <- apply(tmpW/locSD, 2, var, na.rm = T)# locus variance in wavelet
 
 		jl_out[[i]] <- jl_iterator(scalWavVar[i, ], 25/scales[i], quantile(scalWavVar[i, ], outFtail), quantile(scalWavVar[i, ], 1 - outFtail))
 

@@ -3,8 +3,8 @@ A set of methods for using wavelet transforms to characterize spatial pattern in
 
 Currently incomplete but in progress.
 
-Preprint here
-https://www.biorxiv.org/content/10.1101/2022.03.21.485229v3
+Published here in Genetics
+https://academic.oup.com/genetics/article/227/3/iyae082/7676102
 
 The R scripts above contain functions for implementing these methods, along with two scripts demonstrating their use.
 

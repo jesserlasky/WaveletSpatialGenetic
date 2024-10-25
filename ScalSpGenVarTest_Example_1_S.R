@@ -22,6 +22,12 @@ SNPsF <- as.matrix(SNPsF2[,-(1:2)])
 DistMat <- as.matrix(dist(tmp2samp[,c('x', 'y')]))
 
 locSD <- apply(SNPsF, 2, sd)# locus standard deviation
+
+#filter loci lacking variation because they are all heterozygotes (those are the only loci that have no variation among genotypes after having already filtered for MAF)
+#note - I have not explored the potential problems of very low but non-zero genotypic variance at a given locus, so it is likely a more stringent filter should be applied to remove such very highly heterozygous loci.
+SNPsF <- SNPsF[,locSD > 0] #Note - this will not filter any loci from the simulated dataset supplied above.
+locSD <- locSD[locSD > 0]
+
 locSD <- matrix(locSD, byrow = T, nrow = nrow(SNPsF), ncol = ncol(SNPsF))
 
 #empty matrix for scaled-specific genetic variances

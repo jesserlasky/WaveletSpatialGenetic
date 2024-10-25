@@ -19,3 +19,4 @@ SLiM simulations were conducted with linear selective gradient and a single dist
 An example dataset is included, resulting from a run of SpaVarSel_patchy_sigma2_sigK0.5_JRL.1.5.slim using a scale of mating and dispersal sigma = 0.5, and a strength of selection (sigma_K2) = 0.125.
 
 The script [ScalSpGenVarTest_Example_1_S.R](https://github.com/jesserlasky/WaveletSpatialGenetic/blob/main/ScalSpGenVarTest_Example_1_S.R) shows how to implement the scale-specific genetic variance test on this example dataset.
+The script assumes the user has already filtered loci for minor allele frequency (MAF) < 0.1. Additionally, one should filter loci that show no genotypic variation (i.e. when all individuals are heterozygote) which often arises due to mapping errors.
